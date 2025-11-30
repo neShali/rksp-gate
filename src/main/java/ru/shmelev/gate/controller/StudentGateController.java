@@ -23,7 +23,6 @@ public class StudentGateController implements StudentGateApi {
      */
     @Override
     public ResponseEntity<StudentGateResponse> createStudent(StudentGateCreateRequest request) {
-        // запрос во внутренний сервис
         StudentDataCreateRequest dataRequest = new StudentDataCreateRequest();
         dataRequest.setFullName(request.getFullName());
         dataRequest.setPassport(request.getPassport());
@@ -36,5 +35,17 @@ public class StudentGateController implements StudentGateApi {
         gateResponse.setPassport(dataResponse.getPassport());
 
         return ResponseEntity.status(201).body(gateResponse);
+    }
+
+    @Override
+    public ResponseEntity<StudentGateResponse> getStudentById(Long id) {
+        StudentDataResponse dataResponse = studentsFeignClient.getStudentDataByIdFromData(id);
+
+        StudentGateResponse gateResponse = new StudentGateResponse();
+        gateResponse.setId(dataResponse.getId());
+        gateResponse.setFullName(dataResponse.getFullName());
+        gateResponse.setPassport(dataResponse.getPassport());
+
+        return ResponseEntity.ok(gateResponse);
     }
 }

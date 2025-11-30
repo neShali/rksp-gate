@@ -30,6 +30,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/StudentGateResponse'
+  /api/students/{id}:
+    get:
+      summary: Получить данные студента через Gate
+      description: Проксирует получение студента по ID во внутренний DATA-SERVICE
+      operationId: getStudentById
+      tags:
+        - studentGate
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор студента
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Студент найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentGateResponse'
+        '404':
+          description: Студент не найден
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentGateResponse'
 
 components:
   schemas:
